@@ -11,5 +11,5 @@ public interface IpisteService {
     Piste UpdatePist(Piste piste);
     Piste retreivePist(Long numPiste);
 
-
+    public void deletePiste(Long numPiste);
 }
