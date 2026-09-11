@@ -1,5 +1,6 @@
 package org.example.skistation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,16 +26,19 @@ public class Skieur {
 
     private String ville;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "skieur")
-    private User user ;
+    private User user;
 
-    @OneToOne(mappedBy = "skieur")
-    private  Abonnement abonnement;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "abonnement_id")
+    private Abonnement abonnement;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "skieur")
-    List<Inscription> inscriptions;
+    private List<Inscription> inscriptions;
+
+    @JsonIgnore
     @ManyToMany
     private List<Piste> pistes;
-
-
 }

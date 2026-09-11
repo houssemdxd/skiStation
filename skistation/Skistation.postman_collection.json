@@ -1,0 +1,251 @@
+{
+  "info": {
+    "name": "Ski Station API",
+    "description": "REST collection for Piste, Cours, Moniteur and Skieur.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "Piste",
+      "item": [
+        {
+          "name": "Get all pistes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/piste/all"
+          }
+        },
+        {
+          "name": "Get piste by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/piste/1"
+          }
+        },
+        {
+          "name": "Add piste",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomPiste\": \"La Verte\",\n  \"color\": \"VERT\",\n  \"Longeur\": 3,\n  \"pente\": 15\n}"
+            },
+            "url": "{{baseUrl}}/piste/add"
+          }
+        },
+        {
+          "name": "Update piste",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numPiste\": 1,\n  \"nomPiste\": \"La Verte\",\n  \"color\": \"BLEU\",\n  \"Longeur\": 4,\n  \"pente\": 20\n}"
+            },
+            "url": "{{baseUrl}}/piste/update"
+          }
+        },
+        {
+          "name": "Delete piste",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/piste/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cours",
+      "item": [
+        {
+          "name": "Get all courses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cours/all"
+          }
+        },
+        {
+          "name": "Get cours by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cours/1"
+          }
+        },
+        {
+          "name": "Add cours",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"niveau\": 1,\n  \"typeCours\": \"COLLECTIF_ADULTE\",\n  \"support\": \"SKI\",\n  \"prix\": 120.5,\n  \"creanau\": 1\n}"
+            },
+            "url": "{{baseUrl}}/cours/add"
+          }
+        },
+        {
+          "name": "Add cours with moniteur",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"niveau\": 2,\n  \"typeCours\": \"PARTICULEIR\",\n  \"support\": \"SNOWBOARD\",\n  \"prix\": 200,\n  \"creanau\": 2,\n  \"moniteur\": {\n    \"numMoniteur\": 1\n  }\n}"
+            },
+            "url": "{{baseUrl}}/cours/add"
+          }
+        },
+        {
+          "name": "Update cours",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numCours\": 1,\n  \"niveau\": 2,\n  \"typeCours\": \"COLLECTIF_ENFANT\",\n  \"support\": \"SKI\",\n  \"prix\": 90,\n  \"creanau\": 1\n}"
+            },
+            "url": "{{baseUrl}}/cours/update"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Moniteur",
+      "item": [
+        {
+          "name": "Get all moniteurs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/moniteur/all"
+          }
+        },
+        {
+          "name": "Get moniteur by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/moniteur/1"
+          }
+        },
+        {
+          "name": "Add moniteur",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomM\": \"Dupont\",\n  \"prenomM\": \"Jean\",\n  \"dateRecus\": \"2020-01-15\"\n}"
+            },
+            "url": "{{baseUrl}}/moniteur/add"
+          }
+        },
+        {
+          "name": "Update moniteur",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numMoniteur\": 1,\n  \"nomM\": \"Dupont\",\n  \"prenomM\": \"Jean-Pierre\",\n  \"dateRecus\": \"2020-01-15\"\n}"
+            },
+            "url": "{{baseUrl}}/moniteur/update"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Skieur",
+      "item": [
+        {
+          "name": "Get all skieurs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/skieur/all"
+          }
+        },
+        {
+          "name": "Get skieur by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/skieur/1"
+          }
+        },
+        {
+          "name": "Add skieur with abonnement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomS\": \"Martin\",\n  \"prenomS\": \"Alice\",\n  \"dateNaissance\": \"1998-05-20\",\n  \"ville\": \"Grenoble\",\n  \"abonnement\": {\n    \"datedebut\": \"2026-01-01\",\n    \"dateFin\": \"2026-12-31\",\n    \"prixAbon\": 450,\n    \"typeAbonnement\": \"ANNUEL\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/skieur/add"
+          }
+        },
+        {
+          "name": "Delete skieur and abonnement",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/skieur/1"
+          }
+        }
+      ]
+    }
+  ]
+}

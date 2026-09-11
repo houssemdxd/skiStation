@@ -1,5 +1,6 @@
 package org.example.skistation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Piste {
     private int Longeur;
 
     private  int pente;
+    @JsonIgnore
     @ManyToMany(mappedBy = "pistes")
     private List<Skieur> skieurs;
 
