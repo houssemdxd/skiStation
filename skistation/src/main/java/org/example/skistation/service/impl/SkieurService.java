@@ -1,4 +1,4 @@
-package org.example.skistation.model.serviceImp;
+package org.example.skistation.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.example.skistation.model.Abonnement;

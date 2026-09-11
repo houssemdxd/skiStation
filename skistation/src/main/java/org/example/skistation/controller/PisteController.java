@@ -1,4 +1,4 @@
-package org.example.skistation.model.serviceImp.controller;
+package org.example.skistation.controller;
 
 import lombok.AllArgsConstructor;
 import org.example.skistation.model.Piste;
