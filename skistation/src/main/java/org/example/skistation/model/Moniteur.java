@@ -21,6 +21,7 @@ public class Moniteur {
     private String nomM;
     private String prenomM;
     private LocalDate dateRecus;
+    private float prime;
 
     @JsonIgnore
     @OneToOne(mappedBy = "moniteur")
