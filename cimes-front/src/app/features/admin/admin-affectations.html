@@ -1,0 +1,205 @@
+<div class="dash-head">
+  <div>
+    <h1>Affectations</h1>
+    <p>Reliez skieurs, cours, moniteurs et pistes depuis un seul espace.</p>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:0;">Opérations</div>
+<div class="action-grid">
+  <article class="action-tile">
+    <div class="action-kicker">Skieurs</div>
+    <h4>Affecter à une piste</h4>
+    <p>Ajoutez une piste favorite au dossier d’un skieur.</p>
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openAssignSkieurToPiste()">Affecter</button>
+  </article>
+  <article class="action-tile">
+    <div class="action-kicker">Skieurs</div>
+    <h4>Créer et inscrire</h4>
+    <p>Enregistrez un skieur et placez-le directement dans un cours.</p>
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openAddSkieurAndAssignToCours()">Créer</button>
+  </article>
+  <article class="action-tile">
+    <div class="action-kicker">Inscriptions</div>
+    <h4>Inscrire à un cours</h4>
+    <p>Ajoutez un skieur déjà enregistré à un cours existant.</p>
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openInscrireSkieurToCours()">Inscrire</button>
+  </article>
+  <article class="action-tile">
+    <div class="action-kicker">Inscriptions</div>
+    <h4>Changer de cours</h4>
+    <p>Déplacez une inscription vers un autre créneau ou un autre niveau.</p>
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openAssignInscriptionToCours()">Réaffecter</button>
+  </article>
+  <article class="action-tile">
+    <div class="action-kicker">Cours</div>
+    <h4>Affecter un moniteur</h4>
+    <p>Associez un moniteur à un cours déjà programmé.</p>
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openAssignMoniteurToCours()">Affecter</button>
+  </article>
+  <article class="action-tile">
+    <div class="action-kicker">Moniteurs</div>
+    <h4>Créer et affecter</h4>
+    <p>Ajoutez un moniteur et rattachez-le immédiatement à un cours.</p>
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openAddMoniteurAndAssignToCours()">Créer</button>
+  </article>
+</div>
+
+<div class="section-title">Consultations</div>
+<div class="panel">
+  <div class="query-tabs">
+    @for (item of tabs; track item.id) {
+      <button type="button" [class.active]="tab() === item.id" (click)="selectTab(item.id)">{{ item.label }}</button>
+    }
+  </div>
+  <div class="panel-body loose">
+    @if (tab() === 'skieurs') {
+      <div class="query-toolbar">
+        <div class="field">
+          <label>Type d’abonnement</label>
+          <select [(ngModel)]="filterType">
+            @for (opt of typeOptions; track opt.value) {
+              <option [value]="opt.value">{{ opt.label }}</option>
+            }
+          </select>
+        </div>
+        <button class="btn btn-amber btn-sm" type="button" [disabled]="loading()" (click)="runQuery()">Rechercher</button>
+      </div>
+      <table>
+        <thead><tr><th>N°</th><th>Nom</th><th>Formule</th></tr></thead>
+        <tbody>
+          @for (sk of skieursByType(); track sk.num) {
+            <tr><td>#{{ sk.num }}</td><td>{{ sk.prenom }} {{ sk.nom }}</td><td>{{ prettify(sk.type) }}</td></tr>
+          } @empty {
+            <tr><td colspan="3" class="muted">{{ searched() ? 'Aucun skieur pour cette formule.' : 'Choisissez une formule, puis lancez la recherche.' }}</td></tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    @if (tab() === 'abonnements') {
+      <div class="query-toolbar">
+        <div class="field">
+          <label>Recherche</label>
+          <select [(ngModel)]="abonnementMode">
+            <option value="type">Par formule</option>
+            <option value="dates">Par période</option>
+          </select>
+        </div>
+        @if (abonnementMode === 'type') {
+          <div class="field">
+            <label>Formule</label>
+            <select [(ngModel)]="filterType">
+              @for (opt of typeOptions; track opt.value) {
+                <option [value]="opt.value">{{ opt.label }}</option>
+              }
+            </select>
+          </div>
+        } @else {
+          <div class="field"><label>Début</label><input type="date" [(ngModel)]="startDate"></div>
+          <div class="field"><label>Fin</label><input type="date" [(ngModel)]="endDate"></div>
+        }
+        <button class="btn btn-amber btn-sm" type="button" [disabled]="loading()" (click)="runQuery()">Rechercher</button>
+      </div>
+      <table>
+        <thead><tr><th>Type</th><th>Début</th><th>Fin</th><th>Prix</th></tr></thead>
+        <tbody>
+          @for (a of abonnements(); track $index) {
+            <tr><td>{{ prettify(a.type) }}</td><td>{{ fmt(a.debut) }}</td><td>{{ fmt(a.fin) }}</td><td>{{ a.prix }}€</td></tr>
+          } @empty {
+            <tr><td colspan="4" class="muted">{{ searched() ? 'Aucun abonnement pour ce filtre.' : 'Définissez un filtre, puis lancez la recherche.' }}</td></tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    @if (tab() === 'planning') {
+      <div class="query-toolbar">
+        <div class="field">
+          <label>Moniteur</label>
+          <select [(ngModel)]="weekMoniteur">
+            <option value="">— Choisir —</option>
+            @for (m of catalog.moniteurs(); track m.num) {
+              <option [value]="m.num">#{{ m.num }} {{ m.prenom }} {{ m.nom }}</option>
+            }
+          </select>
+        </div>
+        <div class="field">
+          <label>Support</label>
+          <select [(ngModel)]="weekSupport">
+            @for (opt of supportOptions; track opt.value) {
+              <option [value]="opt.value">{{ opt.label }}</option>
+            }
+          </select>
+        </div>
+        <button class="btn btn-amber btn-sm" type="button" [disabled]="loading()" (click)="runQuery()">Rechercher</button>
+      </div>
+      @if (weeks().length) {
+        <div class="week-chips">
+          @for (w of weeks(); track $index) {
+            <span class="week-chip">Semaine {{ w }}</span>
+          }
+        </div>
+      } @else {
+        <p class="empty">{{ searched() ? 'Aucune semaine pour ce moniteur et ce support.' : 'Choisissez un moniteur pour voir ses semaines de cours.' }}</p>
+      }
+    }
+
+    @if (tab() === 'cours') {
+      <div class="query-toolbar">
+        <div class="field">
+          <label>Recherche</label>
+          <select [(ngModel)]="coursMode">
+            <option value="type">Par type</option>
+            <option value="support">Par support</option>
+          </select>
+        </div>
+        @if (coursMode === 'type') {
+          <div class="field">
+            <label>Type</label>
+            <select [(ngModel)]="filterCoursType">
+              @for (opt of typeCoursOptions; track opt.value) {
+                <option [value]="opt.value">{{ opt.label }}</option>
+              }
+            </select>
+          </div>
+        } @else {
+          <div class="field">
+            <label>Support</label>
+            <select [(ngModel)]="filterCoursSupport">
+              @for (opt of supportOptions; track opt.value) {
+                <option [value]="opt.value">{{ opt.label }}</option>
+              }
+            </select>
+          </div>
+        }
+        <button class="btn btn-amber btn-sm" type="button" [disabled]="loading()" (click)="runQuery()">Rechercher</button>
+      </div>
+      <table>
+        <thead><tr><th>N°</th><th>Type</th><th>Support</th><th>Prix</th></tr></thead>
+        <tbody>
+          @for (c of coursFiltres(); track c.num) {
+            <tr><td>#{{ c.num }}</td><td>{{ prettify(c.type) }}</td><td>{{ prettify(c.support) }}</td><td>{{ c.prix }}€</td></tr>
+          } @empty {
+            <tr><td colspan="4" class="muted">{{ searched() ? 'Aucun cours pour ce filtre.' : 'Choisissez un critère, puis lancez la recherche.' }}</td></tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    @if (tab() === 'pistes') {
+      <div class="query-toolbar">
+        <p class="empty" style="padding:0;flex:1;">Répartition des skieurs selon la couleur de leurs pistes favorites.</p>
+        <button class="btn btn-amber btn-sm" type="button" [disabled]="loading()" (click)="runQuery()">Afficher</button>
+      </div>
+      @for (item of couleurs(); track item.color) {
+        <div class="color-stat">
+          <span class="l"><span class="badge-color {{ colorClass(item.color) }}"></span>{{ prettify(item.color) }}</span>
+          <span class="v">{{ item.count }}</span>
+        </div>
+      } @empty {
+        <p class="empty">{{ searched() ? 'Aucun comptage disponible.' : 'Lancez l’affichage pour voir la répartition.' }}</p>
+      }
+    }
+  </div>
+</div>

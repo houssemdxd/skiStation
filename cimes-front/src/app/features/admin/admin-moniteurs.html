@@ -1,0 +1,39 @@
+<div class="dash-head">
+  <div>
+    <h1>Gestion des moniteurs</h1>
+    <p>{{ catalog.moniteurs().length }} moniteurs employés.</p>
+  </div>
+  <div class="dash-actions">
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.bestMoniteur()">Désigner le meilleur</button>
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openAddMoniteurAndAssignToCours()">Créer et affecter à un cours</button>
+    <button class="btn btn-amber btn-sm" type="button" (click)="actions.openAddMoniteur()">+ Nouveau moniteur</button>
+  </div>
+</div>
+<div class="panel">
+  <div class="panel-body">
+    <table>
+      <thead>
+        <tr><th>N°</th><th>Nom</th><th>Prénom</th><th>Recruté le</th><th>Cours assignés</th><th>Prime</th><th class="actions">Actions</th></tr>
+      </thead>
+      <tbody>
+        @for (m of catalog.moniteurs(); track m.num) {
+          <tr>
+            <td>#{{ m.num }}</td>
+            <td>{{ m.nom }}</td>
+            <td>{{ m.prenom }}</td>
+            <td>{{ fmt(m.recrute) }}</td>
+            <td>{{ catalog.cours().filter(c => c.moniteur === m.num).length }}</td>
+            <td>{{ m.prime ? m.prime + '€' : '—' }}</td>
+            <td class="actions">
+              <div class="table-actions">
+                <button class="btn-row btn-row-danger" type="button" (click)="actions.deleteMoniteur(m.num)">Supprimer</button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="7" class="muted">Aucun moniteur.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

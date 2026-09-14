@@ -1,0 +1,31 @@
+<div class="login-shell">
+  <div class="login-side">
+    <app-snowfall />
+    <a class="brand" routerLink="/"><app-brand-mark /><span>Cimes</span></a>
+    <div class="login-quote">"{{ quotes[role][0] }}"<cite>{{ quotes[role][1] }}</cite></div>
+    <div class="float-slow" style="position:absolute;bottom:-40px;right:-40px;opacity:.5;width:60%;">
+      <app-mountain-scene />
+    </div>
+  </div>
+  <div class="login-form-wrap">
+    <div class="login-form">
+      <h1>Bon retour</h1>
+      <p class="sub">Connectez-vous pour accéder à votre espace skieur, moniteur ou administration.</p>
+      <div class="role-toggle">
+        <button type="button" [class.active]="role==='skieur'" (click)="setRole('skieur')">Skieur</button>
+        <button type="button" [class.active]="role==='moniteur'" (click)="setRole('moniteur')">Moniteur</button>
+        <button type="button" [class.active]="role==='admin'" (click)="setRole('admin')">Administration</button>
+      </div>
+      <div class="field">
+        <label>Identifiant</label>
+        <input type="text" [(ngModel)]="identifiant" [placeholder]="placeholders[role]">
+      </div>
+      <div class="field">
+        <label>Mot de passe</label>
+        <input type="password" [(ngModel)]="password" placeholder="••••••••••">
+      </div>
+      <button class="btn btn-amber" type="button" (click)="connect()">Se connecter</button>
+      <p class="login-back">Pas encore de compte ? <a routerLink="/">Retour à l'accueil</a></p>
+    </div>
+  </div>
+</div>

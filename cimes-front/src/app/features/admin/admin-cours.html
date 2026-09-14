@@ -1,0 +1,61 @@
+<div class="dash-head">
+  <div>
+    <h1>Gestion des cours</h1>
+    <p>{{ catalog.cours().length }} cours programmés.</p>
+  </div>
+  <div class="dash-actions">
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openAssignMoniteurToCours()">Affecter un moniteur</button>
+    <button class="btn btn-amber btn-sm" type="button" (click)="actions.openAddCours()">+ Nouveau cours</button>
+  </div>
+</div>
+<div class="panel">
+  <div class="panel-body">
+    <div class="filter-bar">
+      <div class="field">
+        <label>Type</label>
+        <select [ngModel]="filterType()" (ngModelChange)="filterType.set($event)">
+          <option value="">Tous</option>
+          @for (opt of typeOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label>Support</label>
+        <select [ngModel]="filterSupport()" (ngModelChange)="filterSupport.set($event)">
+          <option value="">Tous</option>
+          @for (opt of supportOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr><th>N°</th><th>Niveau</th><th>Type</th><th>Support</th><th>Créneau</th><th>Moniteur</th><th>Prix</th><th>Places</th><th class="actions">Actions</th></tr>
+      </thead>
+      <tbody>
+        @for (c of filtered(); track c.num) {
+          <tr>
+            <td>#{{ c.num }}</td>
+            <td>{{ niveauLabel(c.niveau) }}</td>
+            <td>{{ c.typeLabel }}</td>
+            <td>{{ c.support === 'SKI' ? 'Ski' : 'Snowboard' }}</td>
+            <td>{{ c.creneau === 1 ? 'Matin' : 'Après-midi' }}</td>
+            <td>{{ c.moniteur ? catalog.moniteurByNum(c.moniteur).prenom + ' ' + catalog.moniteurByNum(c.moniteur).nom : '—' }}</td>
+            <td>{{ c.prix }}€</td>
+            <td>{{ c.inscrits }}/{{ c.capacite }}</td>
+            <td class="actions">
+              <div class="table-actions">
+                <button class="btn-row" type="button" (click)="actions.openAssignMoniteurToCours(c.num)">Affecter</button>
+                <button class="btn-row btn-row-danger" type="button" (click)="actions.deleteCours(c.num)">Supprimer</button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="9" class="muted">Aucun cours.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

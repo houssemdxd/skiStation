@@ -1,0 +1,55 @@
+<div class="dash-head">
+  <div>
+    <h1>Vue d'ensemble</h1>
+    <p>Activité de la station cette saison.</p>
+  </div>
+  <div class="dash-date">Saison 2026 / 2027</div>
+</div>
+<div class="kpi-row">
+  <div class="kpi"><div class="l">Skieurs inscrits</div><div class="n">{{ catalog.skieurs().length }}</div><div class="d">Comptes enregistrés</div></div>
+  <div class="kpi"><div class="l">Moniteurs actifs</div><div class="n">{{ catalog.moniteurs().length }}</div><div class="d">Tous supports</div></div>
+  <div class="kpi"><div class="l">Cours programmés</div><div class="n">{{ catalog.cours().length }}</div><div class="d">{{ eleves() }}/{{ capacite() }} places occupées</div></div>
+  <div class="kpi"><div class="l">Revenu abonnements</div><div class="n">{{ (revenuTotal() / 1000).toFixed(1) }}k€</div><div class="d">Sur la saison</div></div>
+</div>
+<div class="panel-grid">
+  <div class="panel">
+    <div class="panel-head"><h3>Revenu par type d'abonnement</h3></div>
+    <div class="panel-body">
+      <div class="bar-chart" style="margin-top:6px;">
+        @for (entry of revenueEntries(); track entry[0]) {
+          <div class="bar" [style.height.%]="100 * entry[1] / maxRevenue()">
+            <span class="val">{{ (entry[1] / 1000).toFixed(1) }}k€</span>
+            <span class="lbl">{{ prettify(entry[0]) }}</span>
+          </div>
+        }
+      </div>
+      <div style="height:34px;"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>Occupation des cours</h3></div>
+    <div class="panel-body">
+      @for (c of catalog.cours(); track c.num) {
+        <div class="info-row">
+          <span class="l">#{{ c.num }} · {{ niveauLabel(c.niveau) }}</span>
+          <span class="v">{{ c.inscrits }}/{{ c.capacite }}</span>
+        </div>
+      } @empty {
+        <p class="empty">Aucun cours.</p>
+      }
+    </div>
+  </div>
+</div>
+<div class="panel" style="margin-top:24px;">
+  <div class="panel-head">
+    <h3>Skieurs par couleur de piste</h3>
+    <a routerLink="../affectations">Ouvrir les affectations</a>
+  </div>
+  <div class="panel-body">
+    @for (item of couleurs(); track item.color) {
+      <div class="info-row"><span class="l">{{ prettify(item.color) }}</span><span class="v">{{ item.count }}</span></div>
+    } @empty {
+      <p class="empty">Aucun comptage disponible.</p>
+    }
+  </div>
+</div>

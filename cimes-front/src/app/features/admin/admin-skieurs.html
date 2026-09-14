@@ -1,0 +1,39 @@
+<div class="dash-head">
+  <div>
+    <h1>Gestion des skieurs</h1>
+    <p>{{ catalog.skieurs().length }} skieurs enregistrés.</p>
+  </div>
+  <div class="dash-actions">
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openAssignSkieurToPiste()">Affecter à une piste</button>
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openAddSkieurAndAssignToCours()">Créer et inscrire</button>
+    <button class="btn btn-amber btn-sm" type="button" (click)="actions.openAddSkieur()">+ Nouveau skieur</button>
+  </div>
+</div>
+<div class="panel">
+  <div class="panel-body">
+    <table>
+      <thead>
+        <tr><th>N°</th><th>Nom</th><th>Prénom</th><th>Ville</th><th>Abonnement</th><th class="actions">Actions</th></tr>
+      </thead>
+      <tbody>
+        @for (sk of catalog.skieurs(); track sk.num) {
+          <tr>
+            <td>#{{ sk.num }}</td>
+            <td>{{ sk.nom }}</td>
+            <td>{{ sk.prenom }}</td>
+            <td>{{ sk.ville || '—' }}</td>
+            <td>{{ sk.abonnement ? prettify(sk.abonnement.type) : '—' }}</td>
+            <td class="actions">
+              <div class="table-actions">
+                <button class="btn-row" type="button" (click)="actions.openEditSkieur(sk)">Modifier</button>
+                <button class="btn-row btn-row-danger" type="button" (click)="actions.deleteSkieur(sk.num)">Supprimer</button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="6" class="muted">Aucun skieur enregistré.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

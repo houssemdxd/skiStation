@@ -1,0 +1,8 @@
+{
+  "/piste": { "target": "http://localhost:8080", "secure": false, "changeOrigin": true },
+  "/cours": { "target": "http://localhost:8080", "secure": false, "changeOrigin": true },
+  "/moniteur": { "target": "http://localhost:8080", "secure": false, "changeOrigin": true },
+  "/skieur": { "target": "http://localhost:8080", "secure": false, "changeOrigin": true },
+  "/abonnement": { "target": "http://localhost:8080", "secure": false, "changeOrigin": true },
+  "/inscription": { "target": "http://localhost:8080", "secure": false, "changeOrigin": true }
+}

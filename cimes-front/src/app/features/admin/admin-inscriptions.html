@@ -1,0 +1,40 @@
+<div class="dash-head">
+  <div>
+    <h1>Inscriptions</h1>
+    <p>{{ catalog.inscriptions().length }} inscriptions aux cours.</p>
+  </div>
+  <div class="dash-actions">
+    <button class="btn btn-ghost-dark btn-sm" type="button" (click)="actions.openAssignInscriptionToCours()">Réaffecter</button>
+    <button class="btn btn-amber btn-sm" type="button" (click)="actions.openInscrireSkieurToCours()">+ Nouvelle inscription</button>
+  </div>
+</div>
+<div class="panel">
+  <div class="panel-body">
+    <table>
+      <thead>
+        <tr><th>N°</th><th>Skieur</th><th>Ville</th><th>Cours</th><th>Semaine</th><th class="actions">Actions</th></tr>
+      </thead>
+      <tbody>
+        @for (i of catalog.inscriptions(); track i.num || $index) {
+          <tr>
+            <td>#{{ i.num || '—' }}</td>
+            <td>{{ i.skieurNom }}</td>
+            <td>{{ i.skieurVille }}</td>
+            <td>{{ i.coursNum ? '#' + i.coursNum + ' · ' + catalog.coursByNum(i.coursNum).typeLabel : '—' }}</td>
+            <td>{{ i.semaine }}</td>
+            <td class="actions">
+              @if (i.num) {
+                <div class="table-actions">
+                  <button class="btn-row" type="button" (click)="actions.openAssignInscriptionToCours(i.num)">Réaffecter</button>
+                  <button class="btn-row btn-row-danger" type="button" (click)="actions.deleteInscription(i.num)">Annuler</button>
+                </div>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="6" class="muted">Aucune inscription.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

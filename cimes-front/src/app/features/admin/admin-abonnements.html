@@ -1,0 +1,44 @@
+<div class="dash-head">
+  <div>
+    <h1>Gestion des abonnements</h1>
+    <p>{{ list().length }} abonnements.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="panel-body">
+    <table>
+      <thead>
+        <tr><th>Skieur</th><th>Type</th><th>Début</th><th>Fin</th><th>Prix</th><th>Statut</th><th class="actions">Changer</th></tr>
+      </thead>
+      <tbody>
+        @for (a of list(); track a.skieur.num) {
+          <tr>
+            <td>{{ a.nom }}</td>
+            <td>{{ prettify(a.type) }}</td>
+            <td>{{ fmt(a.debut) }}</td>
+            <td>{{ fmt(a.fin) }}</td>
+            <td>{{ a.prix }}€</td>
+            <td>
+              <span class="status-pill"
+                    [class.status-active]="a.statut === 'active'"
+                    [class.status-closed]="a.statut === 'closed'">
+                {{ a.statut === 'active' ? 'Actif' : 'Terminé' }}
+              </span>
+            </td>
+            <td class="actions">
+              <div class="table-actions">
+                @for (f of formules; track f.type) {
+                  @if (f.type !== a.type) {
+                    <button class="btn-row" type="button" (click)="change(a.skieur, f.type)">{{ f.label }}</button>
+                  }
+                }
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="7" class="muted">Aucun abonnement.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
