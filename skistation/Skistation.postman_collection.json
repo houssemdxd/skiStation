@@ -1,13 +1,33 @@
 {
   "info": {
     "name": "Ski Station API",
-    "description": "REST collection for Piste, Cours, Moniteur and Skieur.",
+    "description": "All REST routes for Piste, Cours, Moniteur, Skieur, Abonnement and Inscription.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "baseUrl",
       "value": "http://localhost:8080"
+    },
+    {
+      "key": "numPiste",
+      "value": "1"
+    },
+    {
+      "key": "numCours",
+      "value": "1"
+    },
+    {
+      "key": "numMoniteur",
+      "value": "1"
+    },
+    {
+      "key": "numSkieur",
+      "value": "1"
+    },
+    {
+      "key": "numInscription",
+      "value": "1"
     }
   ],
   "item": [
@@ -27,7 +47,7 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/piste/1"
+            "url": "{{baseUrl}}/piste/{{numPiste}}"
           }
         },
         {
@@ -69,7 +89,7 @@
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/piste/1"
+            "url": "{{baseUrl}}/piste/{{numPiste}}"
           }
         }
       ]
@@ -90,7 +110,7 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/cours/1"
+            "url": "{{baseUrl}}/cours/{{numCours}}"
           }
         },
         {
@@ -143,6 +163,30 @@
             },
             "url": "{{baseUrl}}/cours/update"
           }
+        },
+        {
+          "name": "Delete cours",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/cours/{{numCours}}"
+          }
+        },
+        {
+          "name": "Get cours by type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cours/byType/COLLECTIF_ADULTE"
+          }
+        },
+        {
+          "name": "Get cours by support",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cours/bySupport/SKI"
+          }
         }
       ]
     },
@@ -162,7 +206,7 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/moniteur/1"
+            "url": "{{baseUrl}}/moniteur/{{numMoniteur}}"
           }
         },
         {
@@ -194,9 +238,50 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"numMoniteur\": 1,\n  \"nomM\": \"Dupont\",\n  \"prenomM\": \"Jean-Pierre\",\n  \"dateRecus\": \"2020-01-15\"\n}"
+              "raw": "{\n  \"numMoniteur\": 1,\n  \"nomM\": \"Dupont\",\n  \"prenomM\": \"Jean-Pierre\",\n  \"dateRecus\": \"2020-01-15\",\n  \"prime\": 0\n}"
             },
             "url": "{{baseUrl}}/moniteur/update"
+          }
+        },
+        {
+          "name": "Add moniteur and assign to cours",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomM\": \"Bernard\",\n  \"prenomM\": \"Luc\",\n  \"dateRecus\": \"2018-09-01\"\n}"
+            },
+            "url": "{{baseUrl}}/moniteur/addAndAssignToCours/{{numCours}}"
+          }
+        },
+        {
+          "name": "Weeks of moniteur by support",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/moniteur/weeks/{{numMoniteur}}/SKI"
+          }
+        },
+        {
+          "name": "Best moniteur (set prime)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": "{{baseUrl}}/moniteur/best"
+          }
+        },
+        {
+          "name": "Delete moniteur",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/moniteur/{{numMoniteur}}"
           }
         }
       ]
@@ -217,7 +302,7 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/skieur/1"
+            "url": "{{baseUrl}}/skieur/{{numSkieur}}"
           }
         },
         {
@@ -238,11 +323,212 @@
           }
         },
         {
-          "name": "Delete skieur and abonnement",
+          "name": "Update skieur",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numSkieur\": 1,\n  \"nomS\": \"Martin\",\n  \"prenomS\": \"Alice\",\n  \"dateNaissance\": \"1998-05-20\",\n  \"ville\": \"Annecy\"\n}"
+            },
+            "url": "{{baseUrl}}/skieur/update"
+          }
+        },
+        {
+          "name": "Delete skieur",
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/skieur/1"
+            "url": "{{baseUrl}}/skieur/{{numSkieur}}"
+          }
+        },
+        {
+          "name": "Assign skieur to piste",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": "{{baseUrl}}/skieur/assignToPiste/{{numSkieur}}/{{numPiste}}"
+          }
+        },
+        {
+          "name": "Add skieur and assign to cours",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomS\": \"Durand\",\n  \"prenomS\": \"Paul\",\n  \"dateNaissance\": \"2005-03-12\",\n  \"ville\": \"Chamonix\",\n  \"abonnement\": {\n    \"datedebut\": \"2026-01-01\",\n    \"dateFin\": \"2026-03-31\",\n    \"prixAbon\": 180,\n    \"typeAbonnement\": \"SEMESTER\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/skieur/addAndAssignToCours/{{numCours}}"
+          }
+        },
+        {
+          "name": "Get skieurs by type abonnement",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/skieur/byTypeAbonnement/ANNUEL"
+          }
+        },
+        {
+          "name": "Nombre skieurs par couleur piste",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/skieur/nombreParCouleurPiste"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Abonnement",
+      "item": [
+        {
+          "name": "Get all abonnements",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/abonnement/all"
+          }
+        },
+        {
+          "name": "Get abonnement by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/abonnement/1"
+          }
+        },
+        {
+          "name": "Update abonnement",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"datedebut\": \"2026-01-01\",\n  \"dateFin\": \"2026-01-31\",\n  \"prixAbon\": 89,\n  \"typeAbonnement\": \"MENSUELL\"\n}"
+            },
+            "url": "{{baseUrl}}/abonnement/update"
+          }
+        },
+        {
+          "name": "Get abonnements by type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/abonnement/byType/ANNUEL"
+          }
+        },
+        {
+          "name": "Get abonnements by dates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/abonnement/byDates?startDate=2026-01-01&endDate=2026-12-31",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "abonnement",
+                "byDates"
+              ],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2026-12-31"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inscription",
+      "item": [
+        {
+          "name": "Get all inscriptions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/inscription/all"
+          }
+        },
+        {
+          "name": "Get inscription by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/inscription/{{numInscription}}"
+          }
+        },
+        {
+          "name": "Get inscriptions by cours",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/inscription/byCours/{{numCours}}"
+          }
+        },
+        {
+          "name": "Get inscriptions by skieur",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/inscription/bySkieur/{{numSkieur}}"
+          }
+        },
+        {
+          "name": "Delete inscription",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/inscription/{{numInscription}}"
+          }
+        },
+        {
+          "name": "Assign inscription to cours",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": "{{baseUrl}}/inscription/assignToCours/{{numInscription}}/{{numCours}}"
+          }
+        },
+        {
+          "name": "Add inscription and assign to skieur and cours",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numSemaine\": 3\n}"
+            },
+            "url": "{{baseUrl}}/inscription/addAndAssign/{{numSkieur}}/{{numCours}}"
           }
         }
       ]

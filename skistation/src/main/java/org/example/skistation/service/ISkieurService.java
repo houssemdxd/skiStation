@@ -13,6 +13,8 @@ public interface ISkieurService {
 
     Skieur addSkieur(Skieur skieur);
 
+    Skieur updateSkieur(Skieur skieur);
+
     void removeSkieur(Long numSkieur);
 
     Skieur retrieveSkieur(Long numSkieur);

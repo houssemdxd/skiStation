@@ -1,11 +1,11 @@
 package org.example.skistation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 @Getter
 @Setter
 @Entity
@@ -14,17 +14,15 @@ public class Inscription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long numInscription;
 
-    private Long numInscription ;
-
-    private  int numSemaine;
+    private int numSemaine;
 
     @ManyToOne
     @JoinColumn(name = "skieur_id")
+    @JsonIgnoreProperties({"user", "inscriptions", "pistes"})
     private Skieur skieur;
 
     @ManyToOne
-    private Cours cours ;
-
-
+    private Cours cours;
 }

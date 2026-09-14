@@ -25,7 +25,7 @@ public class Cours {
     private int creanau;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cours")
+    @OneToMany(mappedBy = "cours", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Inscription> inscription;
 
     @ManyToOne

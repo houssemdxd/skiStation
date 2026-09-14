@@ -42,6 +42,36 @@ public class SkieurService implements ISkieurService {
 
     @Override
     @Transactional
+    public Skieur updateSkieur(Skieur incoming) {
+        Skieur existing = skieurRepository.findById(incoming.getNumSkieur())
+                .orElseThrow(() -> new RuntimeException("skieur not found"));
+        existing.setNomS(incoming.getNomS());
+        existing.setPrenomS(incoming.getPrenomS());
+        existing.setDateNaissance(incoming.getDateNaissance());
+        existing.setVille(incoming.getVille());
+        if (incoming.getAbonnement() != null) {
+            Abonnement abonnement = existing.getAbonnement();
+            if (abonnement == null) {
+                existing.setAbonnement(incoming.getAbonnement());
+            } else {
+                Abonnement updated = incoming.getAbonnement();
+                if (updated.getDatedebut() != null) {
+                    abonnement.setDatedebut(updated.getDatedebut());
+                }
+                if (updated.getDateFin() != null) {
+                    abonnement.setDateFin(updated.getDateFin());
+                }
+                if (updated.getTypeAbonnement() != null) {
+                    abonnement.setTypeAbonnement(updated.getTypeAbonnement());
+                }
+                abonnement.setPrixAbon(updated.getPrixAbon());
+            }
+        }
+        return skieurRepository.save(existing);
+    }
+
+    @Override
+    @Transactional
     public void removeSkieur(Long numSkieur) {
         skieurRepository.deleteById(numSkieur);
     }

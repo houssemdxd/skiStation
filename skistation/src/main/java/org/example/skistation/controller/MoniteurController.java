@@ -36,6 +36,12 @@ public class MoniteurController {
         return ResponseEntity.ok(moniteurService.retrieveMoniteur(numMoniteur));
     }
 
+    @DeleteMapping("/{numMoniteur}")
+    public ResponseEntity<Void> removeMoniteur(@PathVariable Long numMoniteur) {
+        moniteurService.removeMoniteur(numMoniteur);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/addAndAssignToCours/{numCours}")
     public ResponseEntity<Moniteur> addMoniteurAndAssignToCours(
             @RequestBody Moniteur moniteur,

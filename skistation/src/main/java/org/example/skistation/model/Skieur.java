@@ -34,11 +34,9 @@ public class Skieur {
     @JoinColumn(name = "abonnement_id")
     private Abonnement abonnement;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "skieur")
     private List<Inscription> inscriptions;
 
-    @JsonIgnore
     @ManyToMany
     private List<Piste> pistes;
 }

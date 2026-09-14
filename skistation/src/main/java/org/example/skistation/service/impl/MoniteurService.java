@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
-
 @AllArgsConstructor
 @Service
 public class MoniteurService implements IMoniteurService {
@@ -43,6 +41,17 @@ public class MoniteurService implements IMoniteurService {
     @Override
     public Moniteur retrieveMoniteur(Long numMoniteur) {
         return moniteurRepository.findById(numMoniteur).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void removeMoniteur(Long numMoniteur) {
+        List<Cours> cours = coursRepository.findAll().stream()
+                .filter(c -> c.getMoniteur() != null && numMoniteur.equals(c.getMoniteur().getNumMoniteur()))
+                .toList();
+        cours.forEach(c -> c.setMoniteur(null));
+        coursRepository.saveAll(cours);
+        moniteurRepository.deleteById(numMoniteur);
     }
 
     @Override
@@ -93,7 +102,7 @@ public class MoniteurService implements IMoniteurService {
         List<Moniteur> moniteurs = retrieveAllMoniteurs();
         if(moniteurs.size() == 0)
             throw new RuntimeException("There are no moniteurs");
-        Moniteur bestMoniteur  = moniteurs.getFirst();
+        Moniteur bestMoniteur  = moniteurs.get(0);
         for(Moniteur moniteur : moniteurs){
 
             if (moniteur.getCours().size()>bestMoniteur.getCours().size())

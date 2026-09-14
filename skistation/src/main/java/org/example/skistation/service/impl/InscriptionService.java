@@ -8,10 +8,10 @@ import org.example.skistation.model.TypeCours;
 import org.example.skistation.repository.CoursRepository;
 import org.example.skistation.repository.InscriptionRepository;
 import org.example.skistation.repository.SkieurRepository;
-import org.example.skistation.service.ICoursService;
 import org.example.skistation.service.IInscriptionService;
-import org.example.skistation.service.ISkieurService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +21,31 @@ public class InscriptionService implements IInscriptionService {
     private final CoursRepository coursRepository;
     private final SkieurRepository skieurRepository;
 
+
+    @Override
+    public List<Inscription> retrieveAllInscriptions() {
+        return inscriptionRepository.findAll();
+    }
+
+    @Override
+    public Inscription retrieveInscription(Long numInscription) {
+        return inscriptionRepository.findById(numInscription).orElse(null);
+    }
+
+    @Override
+    public void removeInscription(Long numInscription) {
+        inscriptionRepository.deleteById(numInscription);
+    }
+
+    @Override
+    public List<Inscription> retrieveInscriptionsByCours(Long numCours) {
+        return inscriptionRepository.findAllByCours_NumCours(numCours);
+    }
+
+    @Override
+    public List<Inscription> retrieveInscriptionsBySkieur(Long numSkieur) {
+        return inscriptionRepository.findAllBySkieur_NumSkieur(numSkieur);
+    }
 
     @Override
     public Inscription assignInscriptionToCours(Long numInscription, Long numCours) {

@@ -14,6 +14,8 @@ public interface IMoniteurService {
     Moniteur updateMoniteur(Moniteur moniteur);
 
     Moniteur retrieveMoniteur(Long numMoniteur);
+
+    void removeMoniteur(Long numMoniteur);
     Moniteur addMoniteurAndAssignToCours(Moniteur moniteur, Long numCours);
     List<Integer> numWeeksCourseOfMoniteurBySupport(
             Long numMoniteur,

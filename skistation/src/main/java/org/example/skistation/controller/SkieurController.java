@@ -28,6 +28,11 @@ public class SkieurController {
         return ResponseEntity.ok(skieurService.addSkieur(skieur));
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<Skieur> updateSkieur(@RequestBody Skieur skieur) {
+        return ResponseEntity.ok(skieurService.updateSkieur(skieur));
+    }
+
     @GetMapping("/{numSkieur}")
     public ResponseEntity<Skieur> getSkieur(@PathVariable Long numSkieur) {
         return ResponseEntity.ok(skieurService.retrieveSkieur(numSkieur));
